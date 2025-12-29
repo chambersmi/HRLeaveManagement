@@ -15,6 +15,8 @@ namespace HRLeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveT
 
         public UpdateLeaveTypeCommandValidator(ILeaveTypeRepository leaveTypeRepository)
         {
+            _leaveTypeRepository = leaveTypeRepository;
+
             // Add Rules
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("{PropertyName} is required.")

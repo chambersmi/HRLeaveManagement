@@ -15,6 +15,7 @@ namespace HRLeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveT
         
         public CreateLeaveTypeCommandValidator(ILeaveTypeRepository leaveTypeRepository)
         {
+            _leaveTypeRepository = leaveTypeRepository;
 
             // Add Rules
             RuleFor(p => p.Name)
