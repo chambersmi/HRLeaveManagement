@@ -17,8 +17,8 @@ namespace HRLeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTy
 
         public GetLeaveTypesQueryHandler(IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
         {
-            this._leaveTypeRepository = leaveTypeRepository;
-            this._mapper = mapper;
+            _leaveTypeRepository = leaveTypeRepository;
+            _mapper = mapper;
         }
 
         public async Task<List<LeaveTypeDto>> Handle(GetLeaveTypesQuery request, CancellationToken cancellationToken)
