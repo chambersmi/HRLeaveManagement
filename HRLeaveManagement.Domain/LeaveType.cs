@@ -1,15 +1,14 @@
-﻿using System;
+﻿using HRLeaveManagement.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HRLeaveManagement.Domain
+namespace HRLeaveManagement.Domain;
+
+public class LeaveType : BaseEntity
 {
-    public class LeaveType
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public int DefaultDays { get; set; }
-    }
+    public string Name { get; set; } = string.Empty;
+    public int DefaultDays { get; set; }
 }
