@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HRLeaveManagement.Application.Contracts.Persistence;
+using HRLeaveManagement.Application.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,14 @@ namespace HRLeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveT
 
         public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
-            // Validate incoming data
+            // Validate incoming data with Validator
+            var validator = new CreateLeaveTypeCommandValidator(_leaveTypeRepository);
+            var validationResult = await validator.ValidateAsync(request);
 
+            if(validationResult.Errors.Any())
+            {
+                throw new BadRequestException("Invalid LeaveType: ", validationResult);
+            }
 
             // Convert to domain entity object
             var leaveTypeToCreate = _mapper.Map<Domain.LeaveType>(request);
