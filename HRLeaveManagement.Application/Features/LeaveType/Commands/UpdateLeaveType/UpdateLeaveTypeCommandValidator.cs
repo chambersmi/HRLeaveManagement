@@ -18,6 +18,10 @@ namespace HRLeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveT
             _leaveTypeRepository = leaveTypeRepository;
 
             // Add Rules
+            RuleFor(p => p.Id)
+                .NotNull()
+                .MustAsync(LeaveTypeMustExist);
+
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull()
@@ -30,6 +34,12 @@ namespace HRLeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveT
             RuleFor(p => p)
                 .MustAsync(LeaveTypeNameUnique)
                 .WithMessage("Leave type already exists.");
+        }
+
+        private async Task<bool> LeaveTypeMustExist(int id, CancellationToken token)
+        {
+            var leaveType = await _leaveTypeRepository.GetByIdAsync(id);
+            return leaveType != null;
         }
 
         private async Task<bool> LeaveTypeNameUnique(UpdateLeaveTypeCommand command, CancellationToken token)
