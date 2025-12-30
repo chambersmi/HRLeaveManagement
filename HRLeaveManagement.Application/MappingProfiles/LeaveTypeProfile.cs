@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using HRLeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
+using HRLeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
 using HRLeaveManagement.Application.Features.LeaveType.GetLeaveTypeDetails;
 using HRLeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
 using HRLeaveManagement.Domain;
@@ -18,5 +20,7 @@ public class LeaveTypeProfile : Profile
 
         // Only converting LeaveType to LeaveTypeDetailsDto, not mapping in .ReverseMap()
         CreateMap<LeaveType, LeaveTypeDetailsDto>();
+        CreateMap<CreateLeaveTypeCommand, LeaveType>();
+        CreateMap<UpdateLeaveTypeCommand, LeaveType>();
     }
 }

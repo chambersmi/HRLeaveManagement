@@ -19,7 +19,7 @@ namespace HRLeaveManagement.Infrastructure.Logging
 
         public void LogInformation(string message, params object[] args)
         {
-            _logger.LogInformation(message, args);
+            _logger.LogInformation(message, args);            
         }
 
         public void LogWarning(string message, params object[] args)

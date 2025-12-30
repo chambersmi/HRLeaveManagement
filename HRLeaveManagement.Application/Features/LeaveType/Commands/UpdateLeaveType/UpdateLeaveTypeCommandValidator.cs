@@ -20,7 +20,8 @@ namespace HRLeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveT
             // Add Rules
             RuleFor(p => p.Id)
                 .NotNull()
-                .MustAsync(LeaveTypeMustExist);
+                .MustAsync(LeaveTypeMustExist)
+                .WithMessage("{PropertyName} must be present.");
 
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("{PropertyName} is required.")
