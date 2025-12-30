@@ -14,16 +14,19 @@ namespace HRLeaveManagement.Application.Features.LeaveAllocation.Commands.Create
     {
         private readonly ILeaveAllocationRepository _leaveAllocationRepository;
         private readonly IMapper _mapper;
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-        public CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository, IMapper mapper)
+        public CreateLeaveAllocationCommandHandler(IMapper mapper,
+          ILeaveAllocationRepository leaveAllocationRepository, ILeaveTypeRepository leaveTypeRepository)
         {
             _leaveAllocationRepository = leaveAllocationRepository;
+            _leaveTypeRepository = leaveTypeRepository;
             _mapper = mapper;
         }
 
         public async Task<Unit> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateLeaveAllocationCommandValidator(_leaveAllocationRepository);
+            var validator = new CreateLeaveAllocationCommandValidator(_leaveTypeRepository);
             var validationResult = await validator.ValidateAsync(request);
 
             if(validationResult.Errors.Any())

@@ -6,15 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HRLeaveManagement.Application.Features.LeaveAllocation.Commands.CreateLeaveAllocation
+namespace HRLeaveManagement.Application.Features.LeaveRequest.Shared
 {
-    public class CreateLeaveAllocationCommandValidator : AbstractValidator<CreateLeaveAllocationCommand>
+    public class BaseLeaveRequestValidator : AbstractValidator<BaseLeaveRequest>
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
 
-        public CreateLeaveAllocationCommandValidator(ILeaveTypeRepository leaveTypeRepository)
+        public BaseLeaveRequestValidator(ILeaveTypeRepository leaveTypeRepository)
         {
             _leaveTypeRepository = leaveTypeRepository;
+
+            RuleFor(p => p.StartDate)
+                .LessThan(p => p.EndDate).WithMessage("{PropertyName} must be before {ComparisonValue}");
+
+            RuleFor(p => p.EndDate)
+                .GreaterThan(p => p.StartDate).WithMessage("{PropertyName} must be after {ComparisonValue}");
 
             RuleFor(p => p.LeaveTypeId)
                 .GreaterThan(0)
@@ -22,11 +28,10 @@ namespace HRLeaveManagement.Application.Features.LeaveAllocation.Commands.Create
                 .WithMessage("{PropertyName} does not exist.");
         }
 
-        // This may be wrong.
         private async Task<bool> LeaveTypeMustExist(int id, CancellationToken token)
         {
             var leaveType = await _leaveTypeRepository.GetByIdAsync(id);
-            
+
             return leaveType != null;
         }
     }
