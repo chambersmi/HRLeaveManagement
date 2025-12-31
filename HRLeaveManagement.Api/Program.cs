@@ -1,4 +1,5 @@
 
+using HRLeaveManagement.Api.Middleware;
 using HRLeaveManagement.Application;
 using HRLeaveManagement.Infrastructure;
 using HRLeaveManagement.Persistence;
@@ -32,6 +33,9 @@ namespace HRLeaveManagement.Api
             });          
 
             var app = builder.Build();
+
+            //Custom Middleware
+            app.UseMiddleware<ExceptionMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
