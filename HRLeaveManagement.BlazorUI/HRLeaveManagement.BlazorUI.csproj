@@ -8,8 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.22" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.22" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HRLeaveManagement.Application\HRLeaveManagement.Application.csproj" />
+    <ProjectReference Include="..\HRLeaveManagement.Persistence\HRLeaveManagement.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
