@@ -1,4 +1,5 @@
 using HRLeaveManagement.BlazorUI.Contracts;
+using HRLeaveManagement.BlazorUI.MappingProfiles;
 using HRLeaveManagement.BlazorUI.Services;
 using HRLeaveManagement.BlazorUI.Services.Base;
 using Microsoft.AspNetCore.Components.Web;
@@ -18,14 +19,14 @@ namespace HRLeaveManagement.BlazorUI
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             // Custom services
-            builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7004"));
+            builder.Services.AddHttpClient<IClient, Client>(client => client.BaseAddress = new Uri("https://localhost:7079"));
             
             builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>();
             builder.Services.AddScoped<ILeaveRequestService, LeaveRequestService>();
             builder.Services.AddScoped<ILeaveAllocationService, LeaveAllocationService>();
 
             // AutoMapper
-            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            builder.Services.AddAutoMapper(cfg => { }, typeof(MappingConfig));
 
 
 

@@ -1,4 +1,6 @@
-﻿namespace HRLeaveManagement.BlazorUI.Services.Base
+﻿using HRLeaveManagement.BlazorUI.Services.Base;
+
+namespace HRLeaveManagement.BlazorUI.Services.Base
 {
     public class BaseHttpService
     {

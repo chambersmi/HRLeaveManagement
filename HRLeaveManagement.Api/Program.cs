@@ -37,6 +37,8 @@ namespace HRLeaveManagement.Api
             //Custom Middleware
             app.UseMiddleware<ExceptionMiddleware>();
 
+            app.UseCors("all");
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
