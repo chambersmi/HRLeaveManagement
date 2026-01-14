@@ -2,7 +2,6 @@ using HRLeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
 using HRLeaveManagement.BlazorUI.Contracts;
 using HRLeaveManagement.BlazorUI.ViewModels.LeaveTypes;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
 
 namespace HRLeaveManagement.BlazorUI.Pages.LeaveTypes
@@ -19,7 +18,7 @@ namespace HRLeaveManagement.BlazorUI.Pages.LeaveTypes
             
         protected void CreateLeaveType()
         {
-            NavigationManager.NavigateTo("/leavetypes/create");
+            NavigationManager.NavigateTo("/leavetypes/create/");
         }
 
         protected void AllocatedLeaveType(int id)

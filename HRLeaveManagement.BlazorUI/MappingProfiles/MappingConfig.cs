@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using HRLeaveManagement.Application.Features.LeaveType.Commands.CreateLeaveType;
-using HRLeaveManagement.Application.Features.LeaveType.Commands.UpdateLeaveType;
-using HRLeaveManagement.Application.Features.LeaveType.Queries.GetAllLeaveTypes;
 using HRLeaveManagement.BlazorUI.ViewModels.LeaveTypes;
+using HRLeaveManagement.BlazorUI.Services.Base;
 
 namespace HRLeaveManagement.BlazorUI.MappingProfiles
 {

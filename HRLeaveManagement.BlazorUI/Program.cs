@@ -1,10 +1,11 @@
+using AutoMapper;
 using HRLeaveManagement.BlazorUI.Contracts;
 using HRLeaveManagement.BlazorUI.MappingProfiles;
 using HRLeaveManagement.BlazorUI.Services;
 using HRLeaveManagement.BlazorUI.Services.Base;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace HRLeaveManagement.BlazorUI
 {

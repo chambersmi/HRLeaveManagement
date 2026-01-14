@@ -6,8 +6,8 @@ namespace HRLeaveManagement.BlazorUI.ViewModels.LeaveTypes
     {
         public int Id { get; set; }
 
-        [Required]
-        public required string Name { get; set; }
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; }
 
         [Required]
         [Display(Name = "Default Number of Days")]
