@@ -1,6 +1,7 @@
 
 using HRLeaveManagement.Api.Middleware;
 using HRLeaveManagement.Application;
+using HRLeaveManagement.Identity;
 using HRLeaveManagement.Infrastructure;
 using HRLeaveManagement.Persistence;
 
@@ -18,6 +19,7 @@ namespace HRLeaveManagement.Api
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
             builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddConfigureIdentityServices(builder.Configuration);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -47,6 +49,9 @@ namespace HRLeaveManagement.Api
             }
 
             app.UseHttpsRedirection();
+
+            // Use Authentication for JWT
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
