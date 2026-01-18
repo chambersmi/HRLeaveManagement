@@ -10,15 +10,15 @@ namespace HRLeaveManagement.Application.Models.Identity
     public class RegistrationRequest
     {
         [Required]
-        public string Firstname { get; set; }
+        public string FirstName { get; set; }
         [Required]
-        public string Lastname { get; set; }
+        public string LastName { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
         [MinLength(6)]
-        public string Username { get; set; }
+        public string UserName { get; set; }
         [Required]
         [MinLength(6)]
         public string Password { get; set; }
