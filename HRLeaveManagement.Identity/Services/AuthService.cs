@@ -5,16 +5,14 @@ using HRLeaveManagement.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
+using Microsoft.JSInterop;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HRLeaveManagement.Identity.Services
 {
+
     public class AuthService : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -22,8 +20,8 @@ namespace HRLeaveManagement.Identity.Services
         private readonly JwtSettings _jwtSettings;
 
         public AuthService(
-            UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager, 
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IOptions<JwtSettings> jwtSettings)
         {
             _userManager = userManager;
@@ -35,8 +33,8 @@ namespace HRLeaveManagement.Identity.Services
         {
             // See if user exists
             var user = await _userManager.FindByEmailAsync(request.Email);
-            
-            if(user == null)
+
+            if (user == null)
             {
                 throw new NotFoundException($"User with {request.Email} not found.", request.Email);
             }
@@ -44,7 +42,7 @@ namespace HRLeaveManagement.Identity.Services
             // Can this user sign in with this password? If yes, true.
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
-            if(result.Succeeded == false)
+            if (result.Succeeded == false)
             {
                 throw new BadRequestException($"Credentials for '{request.Email}' are not valid.");
             }
@@ -78,7 +76,7 @@ namespace HRLeaveManagement.Identity.Services
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Employee");
                 return new RegistrationResponse() { UserId = user.Id };
@@ -86,7 +84,7 @@ namespace HRLeaveManagement.Identity.Services
             else
             {
                 StringBuilder str = new StringBuilder();
-                foreach(var err in result.Errors)
+                foreach (var err in result.Errors)
                 {
                     str.AppendFormat("- {0}\n", err.Description);
                 }
@@ -116,7 +114,7 @@ namespace HRLeaveManagement.Identity.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName), // Sub identifies as user, could be email, etc.
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Generate new Guid every login
-                new Claim(JwtRegisteredClaimNames.Email, user.Email), 
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("uid", user.Id) // Custom field
             }
             .Union(userClaims)
@@ -133,7 +131,7 @@ namespace HRLeaveManagement.Identity.Services
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes), // Changed from DateTime.Now
                 signingCredentials: signingCredentials);
 
             return jwtSecurityToken;

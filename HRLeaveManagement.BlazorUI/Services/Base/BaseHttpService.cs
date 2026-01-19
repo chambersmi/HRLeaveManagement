@@ -1,10 +1,19 @@
-﻿using HRLeaveManagement.BlazorUI.Services.Base;
+﻿using Blazored.LocalStorage;
+using HRLeaveManagement.BlazorUI.Services.Base;
+using System.Net.Http.Headers;
 
 namespace HRLeaveManagement.BlazorUI.Services.Base
 {
     public class BaseHttpService
     {
         protected IClient _client;
+        protected readonly ILocalStorageService _localStorage;
+
+        public BaseHttpService(IClient client, ILocalStorageService localStorage)
+        {
+            _client = client;
+            _localStorage = localStorage;
+        }
 
         public BaseHttpService(IClient client)
         {
@@ -14,7 +23,7 @@ namespace HRLeaveManagement.BlazorUI.Services.Base
         // Cleans up runtime errors
         protected Response<Guid> ConvertApiExceptions<Guid>(ApiException ex)
         {
-            if(ex.StatusCode == 400)
+            if (ex.StatusCode == 400)
             {
                 return new Response<Guid>()
                 {
@@ -22,7 +31,8 @@ namespace HRLeaveManagement.BlazorUI.Services.Base
                     ValidationErrors = ex.Response,
                     Success = false
                 };
-            } else if(ex.StatusCode == 404)
+            }
+            else if (ex.StatusCode == 404)
             {
                 return new Response<Guid>()
                 {
@@ -30,7 +40,7 @@ namespace HRLeaveManagement.BlazorUI.Services.Base
                     ValidationErrors = ex.Response,
                     Success = false
                 };
-            } 
+            }
             else
             {
                 return new Response<Guid>()
@@ -39,6 +49,15 @@ namespace HRLeaveManagement.BlazorUI.Services.Base
                     ValidationErrors = ex.Response,
                     Success = false
                 };
+            }
+        }
+
+        protected async Task AddBearerToken()
+        {
+            // If key is present, send over bearer token and fetch value
+            if (await _localStorage.ContainKeyAsync("token"))
+            {
+                _client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await _localStorage.GetItemAsync<string>("token"));
             }
         }
     }
