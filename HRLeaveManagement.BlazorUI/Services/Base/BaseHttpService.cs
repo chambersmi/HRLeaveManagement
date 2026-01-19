@@ -15,11 +15,6 @@ namespace HRLeaveManagement.BlazorUI.Services.Base
             _localStorage = localStorage;
         }
 
-        public BaseHttpService(IClient client)
-        {
-            _client = client;
-        }
-
         // Cleans up runtime errors
         protected Response<Guid> ConvertApiExceptions<Guid>(ApiException ex)
         {
@@ -54,6 +49,11 @@ namespace HRLeaveManagement.BlazorUI.Services.Base
 
         protected async Task AddBearerToken()
         {
+            if(_localStorage == null)
+            {
+                return;
+            }
+
             // If key is present, send over bearer token and fetch value
             if (await _localStorage.ContainKeyAsync("token"))
             {

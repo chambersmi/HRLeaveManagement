@@ -10,7 +10,7 @@ namespace HRLeaveManagement.BlazorUI.Services
     {
         private readonly IMapper _mapper;
 
-        public LeaveTypeService(IClient client, IMapper mapper, ILocalStorageService localStorageService) : base(client) // ???????
+        public LeaveTypeService(IClient client, IMapper mapper, ILocalStorageService localStorageService) : base(client, localStorageService) // ???????
         {
             _mapper = mapper;
         }
