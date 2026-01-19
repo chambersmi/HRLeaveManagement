@@ -1,23 +1,19 @@
 ﻿using Blazored.LocalStorage;
-using HRLeaveManagement.BlazorUI.Contracts;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Buffers;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Json;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace HR.LeaveManagement.BlazorUI.Providers
 {
     public class ApiAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly ILocalStorageService localStorage;
-        private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
+        private readonly JsonWebTokenHandler jwtSecurityTokenHandler;
 
         public ApiAuthenticationStateProvider(ILocalStorageService localStorage)
         {
             this.localStorage = localStorage;
-            jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            jwtSecurityTokenHandler = new JsonWebTokenHandler();
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -30,7 +26,7 @@ namespace HR.LeaveManagement.BlazorUI.Providers
             }
 
             var savedToken = await localStorage.GetItemAsync<string>("token");
-            var tokenContent = jwtSecurityTokenHandler.ReadJwtToken(savedToken);
+            var tokenContent = jwtSecurityTokenHandler.ReadJsonWebToken(savedToken);
 
             if (tokenContent.ValidTo < DateTime.UtcNow) // Changed from DateTime.Now
             {
@@ -64,7 +60,7 @@ namespace HR.LeaveManagement.BlazorUI.Providers
         private async Task<List<Claim>> GetClaims()
         {
             var savedToken = await localStorage.GetItemAsync<string>("token");
-            var tokenContent = jwtSecurityTokenHandler.ReadJwtToken(savedToken);
+            var tokenContent = jwtSecurityTokenHandler.ReadJsonWebToken(savedToken);
             var claims = tokenContent.Claims.ToList();
             claims.Add(new Claim(ClaimTypes.Name, tokenContent.Subject));
             return claims;
